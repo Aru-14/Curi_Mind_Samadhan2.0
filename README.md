@@ -1,6 +1,6 @@
 # JEE Saathi AI
 
-# 🚀 Features
+## 🚀 Features
 
 ### **1. Smart Topic Coverage**
 
