@@ -90,4 +90,4 @@
 
 ---
 
-By Arunima Paunikar and Gauri Belokar — with love 💙
+Designed and developed by Arunima Paunikar and supported by Gauri Belokar — with love 💙
