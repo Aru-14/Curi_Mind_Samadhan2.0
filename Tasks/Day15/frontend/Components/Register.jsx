@@ -21,14 +21,14 @@ function Register() {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage("🎉 Registration successful ✅");
+        setMessage(" Registration successful");
         setSuccess(true);
       } else {
-        setMessage(data.msg || "Registration failed ❌");
+        setMessage(data.msg || "Registration failed ");
         setSuccess(false);
       }
     } catch (err) {
-      setMessage("Something went wrong ❌");
+      setMessage("Something went wrong ",err);
       setSuccess(false);
     }
   };
