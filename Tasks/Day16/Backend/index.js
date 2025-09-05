@@ -10,7 +10,7 @@ const mongoose=require('mongoose')
 const cors = require("cors")
 const Cart = require('./Models/Cart')
 dotenv.config(); // loads .env file
-
+const Stripe = require("stripe");  
 connectDB(); // connect to MongoDB
 
 const app = express();
@@ -69,6 +69,49 @@ console.log("User found",user)
 app.use("/products", productRoutes);
 
 app.use("/cart", cartRoutes);
+
+
+
+const stripe = new Stripe(process.env.STRIPE_SEC); // your STRIPE_SECRET_KEY
+
+
+
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+    const { cartItems } = req.body;
+
+    const line_items = cartItems.map((item) => {
+      if (!item.product || !item.product.price) {
+        throw new Error(`Invalid item: ${JSON.stringify(item)}`);
+      }
+
+      return {
+        price_data: {
+          currency: "inr", // since you are using ₹
+          product_data: {
+            name: item.product.name,
+          },
+          // 👇 directly use product.price because it's already in paise
+          unit_amount: parseInt(item.product.price, 10),
+        },
+        quantity: item.quantity,
+      };
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items,
+      mode: "payment",
+      success_url: "http://localhost:3000/success",
+      cancel_url: "http://localhost:3000/cancel",
+    });
+
+    res.json({ id: session.id });
+  } catch (err) {
+    console.error("Stripe error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 
 

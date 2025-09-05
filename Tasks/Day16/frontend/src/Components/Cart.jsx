@@ -1,7 +1,31 @@
 import React, { useEffect, useState } from "react";
+import {loadStripe} from '@stripe/stripe-js';
 
 function Cart() {
   const [cart, setCart] = useState(null);
+
+
+const stripePromise = loadStripe("pk_test_51S3sx4GbWK4FJ3bu23MWavVhwu8YXfKZvBX0aRU9kDTCK4AEl6DBBSGK0IdO0toAYekGiMoalKWQTWF5q4yfVhss00z90hj3gt");
+
+
+async function checkOut(cartItems) {
+  const res = await fetch("http://localhost:5000/create-checkout-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cartItems }),
+  });
+
+  const data = await res.json();
+  console.log("Stripe session response:", data); // 👈 debug here
+
+  if (!data.id) {
+    alert("Error: sessionId not received from backend");
+    return;
+  }
+
+  const stripe = await stripePromise;
+  await stripe.redirectToCheckout({ sessionId: data.id });
+}
 
   // Fetch cart on load
   useEffect(() => {
@@ -104,7 +128,7 @@ function Cart() {
           </div>
         ))}
       </div>
-
+{console.log(cart)}
       <div className="mt-8 bg-indigo-50 p-6 rounded-2xl shadow-md flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-800">Total:</h2>
         <span className="text-2xl font-extrabold text-indigo-600">
@@ -116,7 +140,7 @@ function Cart() {
       </div>
 
       <div className="mt-6 text-center">
-        <button className="bg-indigo-600 text-white px-8 py-3 rounded-2xl text-lg font-semibold hover:bg-indigo-700 transition-colors">
+        <button onClick={()=>{checkOut(cart.items)}} className="bg-indigo-600 text-white px-8 py-3 rounded-2xl text-lg font-semibold hover:bg-indigo-700 transition-colors">
           Proceed to Checkout
         </button>
       </div>
