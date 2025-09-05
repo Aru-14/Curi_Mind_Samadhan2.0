@@ -1,5 +1,15 @@
 # JEE Saathi AI
 
+
+[PPT Link](https://1drv.ms/p/c/c7591291c90d4f6e/EcAdA-dqtE5FiX1N0TKUPbsBk99-CbbtbOYvtTc4msMnUw?e=AZ3ATF)
+
+[Youtube Video Link](https://youtu.be/CxWC5MYVhrw)
+
+[Demo Video Slides](https://www.canva.com/design/DAGyGw96MQg/PS-o2QUokr3QlLXknpwF3A/edit?utm_content=DAGyGw96MQg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+
+
+
 ## 🚀 Features
 
 ### **1. Smart Topic Coverage**
